@@ -1,0 +1,24 @@
+.tasks-form-container {
+    padding: 40px;
+
+    .tasks-form-box {
+        max-width: 950px;
+        margin: 0 auto;
+
+      
+
+        .task-form-box-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .task-form-input {  
+            max-width: 500px;
+
+            @media screen and (max-width: 795px) {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+}

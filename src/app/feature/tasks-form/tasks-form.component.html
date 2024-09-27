@@ -1,0 +1,101 @@
+<div class="tasks-form-container">
+    <div class="card tasks-form-box border-dark">
+        <div class="card-header">
+            <p class="task-form-box-title m-0">Tarea</p>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="taskFormGroup">
+                <div class="mb-3 task-form-input">
+                    <label for="taskName" class="form-label">Nombre de la tarea: </label>
+                    <input type="text" class="form-control" id="taskName" formControlName="taskName">
+                    @if (handleFormControlError('taskName')) {
+                        <div id="emailHelp" class="form-text invalid-feedback d-block">{{handleFormControlError('taskName')}}</div>
+                    }
+                   
+                </div>
+                <div class="mb-3 task-form-input">
+                    <label for="taskDate" class="form-label">Fecha límite</label>
+                    <input type="date" class="form-control" id="taskDate" formControlName="taskDeadline">
+                    @if (handleFormControlError('taskDeadline')) {
+                        <div id="emailHelp" class="form-text invalid-feedback d-block">{{handleFormControlError('taskDeadline')}}</div>
+                    }
+                </div>
+                <p>Personas asociadas: </p>
+
+                <div formArrayName="people">
+                    @if (handleFormControlError('people')) {
+                        <div id="emailHelp" class="form-text invalid-feedback d-block my-2">Persona(s) {{handleFormControlError('people')}}</div>
+                    }
+                    @for (person of people.controls; track idPerson; let idPerson = $index) {
+                    <div [formGroupName]="idPerson">
+                        <div class="mb-3 task-form-input">
+                            <label for="name" class="form-label">Nombre: </label>
+                            <input type="text" class="form-control" id="name" formControlName="name">
+                            @if (handleFormArrayError(['people', idPerson, 'name'])) {
+                                <div id="emailHelp" class="form-text invalid-feedback d-block my-2">{{handleFormArrayError(['people', idPerson, 'name'])}}</div>
+                            }
+                        </div>
+                        <div class="mb-3 task-form-input">
+                            <label for="age" class="form-label">Edad: </label>
+                            <input type="number" class="form-control" id="age" formControlName="age">
+                            @if (handleFormArrayError(['people', idPerson, 'age'])) {
+                                <div id="emailHelp" class="form-text invalid-feedback d-block my-2">{{handleFormArrayError(['people', idPerson, 'age'])}}</div>
+                            }
+                        </div>
+
+
+                        <div formArrayName="skills">
+                            @if (handleFormArrayError(['people', idPerson, 'skills'])) {
+                                <div id="emailHelp" class="form-text invalid-feedback d-block my-2"> Habilidad(es) ({{handleFormArrayError(['people', idPerson, 'skills'])}})</div>
+                            }
+                           
+                            @for (skill of getSkills(idPerson).controls; track idSkill; let idSkill = $index) {
+                            <div [formGroupName]="idSkill">
+                                <div class="d-flex align-items-start mb-3 flex-column flex-lg-row gap-3 align-items-lg-center">
+                                    <div class="task-form-input">
+                                        <label for="skill" class="form-label">Habilidad: </label>
+                                        <input type="text" class="form-control" id="skill" formControlName="skill">
+                                        @if (handleFormArrayError(['people', idPerson, 'skills',idSkill, 'skill'])) {
+                                            <div id="emailHelp" class="form-text invalid-feedback d-block">{{handleFormArrayError(['people', idPerson, 'skills', idSkill, 'skill'])}}</div>
+                                        }
+                                    </div>
+                                    <div >
+                                        <button type="button"  class="btn btn-danger" (click)="deleteSkill(idPerson, idSkill)">
+                                            Eliminar habilidad
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            <div class="d-flex gap-3 flex-column flex-lg-row">
+                                <button class="btn btn-outline-dark mb-3" type="button"
+                                (click)="addSkill(idPerson)">Añadir habilidad</button>
+                            <button class="btn btn-danger mb-3" type="button"
+                                (click)="deletePerson(idPerson)">Eliminar persona</button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div>
+                    <button class="btn btn-dark" type="button" (click)="addPerson()">Añadir persona</button>
+                </div>
+               
+                
+                <div class="d-grid gap-2 mt-5">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="handleCreateTask()"
+                    >
+                        Crear tarea
+                    </button>
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+
+</div>

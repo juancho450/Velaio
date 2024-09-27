@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="d-flex gap-2 align-items-center">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                [checked]="task.status === 'Completada'" (change)="handleChecked($event)">
+            <p class="m-0 fw-bold"> {{task.taskName}}</p>
+        </div>
+        <div>
+            {{task.taskDeadline}}
+        </div>
+
+    </div>
+    <div class="card-body">
+        <p class="fw-bold">Personas asociadas:</p>
+        @for (person of task.people; track $index) {
+        <p>{{person.name}} - ({{person.age}})</p>
+        <p class="fw-bold">Habilidades: </p>
+        <ol class="list-group list-group-numbered">
+            @for (skill of person.skills; track $index) {
+
+            <li class="list-group-item">{{skill.skill}}</li>
+            }
+        </ol>
+        }
+    </div>
+</div>
